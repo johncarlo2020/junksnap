@@ -16,8 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable ,HasRoles, HasPanelShield;
 
-
-    protected $appends = ['role'];
+    protected $appends = ['role','image','documents'];
 
     public function getRoleAttribute()
     {
@@ -26,17 +25,46 @@ class User extends Authenticatable
 
         return $role ? $role->name : null;
     }
+
+    public function getImageAttribute()
+    {
+
+        $file = $this->getAttributes()['image'];
+
+        return  asset('storage/' . $file);
+    }
+
+    public function getDocumentsAttribute()
+    {
+        $imageUrls = [];
+
+        $documents =  $this->documents()->get();
+
+        foreach ($documents as $key => $image) {
+            $imageUrls[$key] = asset('storage/' . $image->image) ?? '';
+        }
+
+        return $imageUrls;
+    }
+
+
+     // Relationship with collections as a collector
+     public function collectionsAsSeller()
+     {
+         return $this->hasMany(Collection::class, 'seller_id');
+     }
+ 
+     // Relationship: User as a collector (hasMany)
+     public function collectionsAsCollector()
+     {
+         return $this->hasMany(Collection::class, 'collector_id');
+     }
+
+     public function documents()
+     {
+         return $this->hasMany(UserDocument::class);
+     }
     
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
 
     /**
      * The attributes that should be hidden for serialization.

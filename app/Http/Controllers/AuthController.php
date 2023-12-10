@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use DB;
+use App\Events\TestEvent;
+
+
 class AuthController extends Controller
 {
 
@@ -108,6 +111,8 @@ class AuthController extends Controller
 
     public function test()
     {
-        return 'asdasdas';
+        event(new TestEvent('asdasd'));
+
+        return response()->json(['message' => 'Event triggered!']);
     }
 }
