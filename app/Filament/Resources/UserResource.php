@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
 
 class UserResource extends Resource
 {
@@ -65,7 +66,6 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\DocumentsRelationManager::class,
         ];
     }
     

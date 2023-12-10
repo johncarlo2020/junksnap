@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserDocument extends Model
+class ApplicationImage extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
     
-    protected $table = "user_documents";
+    protected $table = "application_images";
 
     protected $appends = [];
 
-    public function images()
+    public function application()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Application::class, 'application_id');
     }
 }

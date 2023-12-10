@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\UserDocument;
-
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
@@ -21,6 +19,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name'    => 'required',
             'email'   => 'required|email|unique:users,email',
+            'mobile'  => 'required',
+            'bday'  => 'required',
             'range'   => 'required',
             'address' => 'required',
             'image'   => 'required|image|mimes:jpeg,png,jpg',
@@ -37,6 +37,8 @@ class UserController extends Controller
         $user = User::where('id', $client->id)->update([
             'name'    => $request->name,
             'email'   => $request->email,
+            'mobile_number'   => $request->mobile,
+            'bday'   => $request->bday,
             'range'   => $request->range,
             'address' => $request->address,
             'image'   => $imagePath,
@@ -62,6 +64,18 @@ class UserController extends Controller
         }
 
         UserDocument::insert($array);
+
+    }
+
+    public function Verify(Request $request)
+    {
+        
+        $client = auth()->user();
+
+        $user = User::where('id', $client->id)->update([
+            'verified'   => true,
+        ]);
+
 
     }
 }

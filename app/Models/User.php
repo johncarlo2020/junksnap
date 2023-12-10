@@ -16,7 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable ,HasRoles, HasPanelShield;
 
-    protected $appends = ['role','image','documents'];
+    protected $appends = ['role','image','application'];
 
     public function getRoleAttribute()
     {
@@ -28,25 +28,15 @@ class User extends Authenticatable
 
     public function getImageAttribute()
     {
-
         $file = $this->getAttributes()['image'] ?? '';
 
         return  asset('storage/' . $file);
     }
 
-    public function getDocumentsAttribute()
+    public function getApplicationAttribute()
     {
-        $imageUrls = [];
-
-        $documents =  $this->documents()->get();
-
-        foreach ($documents as $key => $image) {
-            $imageUrls[$key] = asset('storage/' . $image->image) ?? '';
-        }
-
-        return $imageUrls;
+        return $this->application()->first();
     }
-
 
      // Relationship with collections as a collector
      public function collectionsAsSeller()
@@ -60,13 +50,14 @@ class User extends Authenticatable
          return $this->hasMany(Collection::class, 'collector_id');
      }
 
-     public function documents()
+     public function application()
      {
-         return $this->hasMany(UserDocument::class);
+         return $this->hasMany(Application::class, 'user_id');
      }
 
+
      protected $fillable = [
-        'name', 'email','password'
+        'name', 'email','password','verified'
     ];
     
 

@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public $tableName = 'application_status';
+    public $tableName = 'applications';
 
     /**
      * Run the migrations.
@@ -22,8 +22,27 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('comment')->nullable();
+
+
             $table->timestamps();
+
+            $table->index(["status_id"], 'application-status');
+            $table->index(["user_id"], 'application-user');
+
+
+            $table->foreign('status_id', 'application-status')
+            ->references('id')->on('application_status')
+            ->onDelete('restrict')
+            ->onUpdate('restrict');
+
+            $table->foreign('user_id', 'application-user')
+            ->references('id')->on('users')
+            ->onDelete('restrict')
+            ->onUpdate('restrict');
+            //
 
         });
         

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\Pages;
+namespace App\Filament\Resources\ApplicationResource\Pages;
 
-use App\Filament\Resources\UserResource;
+use App\Filament\Resources\ApplicationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use App\Events\VerifyUser;
 
-class EditUser extends EditRecord
+class EditApplication extends EditRecord
 {
-    protected static string $resource = UserResource::class;
-    
+    protected static string $resource = ApplicationResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -23,12 +22,8 @@ class EditUser extends EditRecord
     {
         // Runs after the form fields are saved to the database.
         $id = $this->getRecord()->id;
-        $verify = $this->getRecord()->verified;
+        $application = $this->getRecord();
 
-        event(new VerifyUser($id,$verify));
+        event(new VerifyUser($id,$application));
     }
-
-    
-
-    
 }

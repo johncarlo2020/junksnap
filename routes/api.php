@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\ApplicationController;
+
 
 
 
@@ -27,9 +29,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('get', [UserController::class, 'user']);
         Route::post('edit', [UserController::class, 'EditProfile']);
-        Route::post('addDocuments', [UserController::class, 'AddDocuments']);
+    });
 
-
+    Route::group(['prefix' => 'application'], function () {
+        Route::post('submit', [ApplicationController::class, 'submit']);
     });
 
     Route::group(['prefix' => 'collection'], function () {
