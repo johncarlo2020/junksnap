@@ -29,7 +29,7 @@ class User extends Authenticatable
     public function getImageAttribute()
     {
 
-        $file = $this->getAttributes()['image'];
+        $file = $this->getAttributes()['image'] ?? '';
 
         return  asset('storage/' . $file);
     }
@@ -64,6 +64,10 @@ class User extends Authenticatable
      {
          return $this->hasMany(UserDocument::class);
      }
+
+     protected $fillable = [
+        'name', 'email','password'
+    ];
     
 
     /**
@@ -82,7 +86,11 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'verified' => 'boolean',
+        'active' => 'boolean',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        
     ];
+
 }

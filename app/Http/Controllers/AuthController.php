@@ -25,7 +25,7 @@ class AuthController extends Controller
         $validateUser = Validator::make($request->all(), 
          [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'is_seller' => 'required'
         ]);
@@ -37,7 +37,6 @@ class AuthController extends Controller
                 'errors' => $validateUser->errors()
             ], 401);
         }
-
         DB::beginTransaction();
         try {
             $user = User::create([
@@ -49,7 +48,7 @@ class AuthController extends Controller
             $roleName = $request->is_seller ? 'Seller' : 'Collector';
             $roles = $user->assignRole($roleName);
 
-            DB::commit();
+           DB::commit();
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
