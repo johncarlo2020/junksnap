@@ -16,7 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable ,HasRoles, HasPanelShield;
 
-    protected $appends = ['role','image','application'];
+    protected $appends = ['role','image','personalInformation','application'];
 
     public function getRoleAttribute()
     {
@@ -31,6 +31,26 @@ class User extends Authenticatable
         $file = $this->getAttributes()['image'] ?? '';
 
         return  asset('storage/' . $file);
+    }
+
+    public function getPersonalInformationAttribute():bool
+    {
+        $attributes = $this->getAttributes();
+
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email',
+            'mobile_number' => 'required',
+            'bday' => 'required',
+            'range' => 'required',
+            'address' => 'required',
+            'image' => 'required',
+        ];
+    
+        $validator = validator($attributes, $rules);
+    
+        return !$validator->fails();
+    
     }
 
     public function getApplicationAttribute()

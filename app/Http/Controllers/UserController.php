@@ -18,7 +18,6 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name'    => 'required',
-            'email'   => 'required|email|unique:users,email',
             'mobile'  => 'required',
             'bday'  => 'required',
             'range'   => 'required',
@@ -36,7 +35,6 @@ class UserController extends Controller
         // Update user data in the database
         $user = User::where('id', $client->id)->update([
             'name'    => $request->name,
-            'email'   => $request->email,
             'mobile_number'   => $request->mobile,
             'bday'   => $request->bday,
             'range'   => $request->range,
