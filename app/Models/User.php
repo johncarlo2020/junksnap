@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public function getApplicationAttribute()
     {
-        return $this->application()->first();
+        return $this->application()->orderBy('id','desc')->first();
     }
 
      // Relationship with collections as a collector
