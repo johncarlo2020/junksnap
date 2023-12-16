@@ -20,10 +20,8 @@ class EditApplication extends EditRecord
 
     protected function afterSave(): void
     {
-        // Runs after the form fields are saved to the database.
-        $id = $this->getRecord()->id;
         $application = $this->getRecord();
 
-        event(new VerifyUser($id,$application));
+        event(new VerifyUser($application));
     }
 }

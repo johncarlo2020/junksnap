@@ -14,7 +14,6 @@ class VerifyUser implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $userId;
     public $application;
 
 
@@ -24,9 +23,8 @@ class VerifyUser implements ShouldBroadcast
      * @param  string  $message
      * @return void
      */
-    public function __construct($userId,$application)
+    public function __construct($application)
     {
-        $this->userId = $userId;
         $this->application = $application;
     }
 
