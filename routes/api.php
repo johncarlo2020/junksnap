@@ -37,6 +37,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'collection'], function () {
         Route::get('get', [CollectionController::class, 'get']);
+        Route::post('add', [CollectionController::class, 'add']);
+
     });
 });
 

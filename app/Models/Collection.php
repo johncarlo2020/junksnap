@@ -13,7 +13,7 @@ class Collection extends Model
     
     protected $table = "collections";
 
-    protected $appends = ['seller', 'collector','status'];
+    protected $appends = ['seller', 'collector','status','images'];
 
     // Accessor method to retrieve seller data
     public function getSellerAttribute()
@@ -30,6 +30,13 @@ class Collection extends Model
     public function getStatusAttribute()
     {
         return $this->status()->first();
+    }
+
+    public function getImagesAttribute()
+    {
+        $file = $this->getAttributes()['images'] ?? '';
+
+        return  asset('storage/' . $file);
     }
 
 
