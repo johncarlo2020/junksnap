@@ -7,13 +7,15 @@ use App\Models\Collection;
 use App\Models\User;
 use DB;
 use App\Events\AddCollectionEvent;
+use App\Events\InRouteEvent;
+
 
 class CollectionController extends Controller
 {
     public function get(Request $request)
     {
         // Get collections for a specific user as a collector
-        $result = Collection::get();
+        $result = Collection::where('status_id',1)->get();
 
         return response()->json($result, 200);
     }
@@ -74,6 +76,22 @@ class CollectionController extends Controller
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function enRoute(Request $request)
+    {
+        $this->validate($request, [
+            'id'             => 'required',
+        ]);
+
+        $client = auth()->user();
+
+        $collection = Collection::find($request->id);
+        $collection->collector_id =  $client->id;
+        $collection->status_id =  2;
+        $collection->save();
+
+        event(new InRouteEvent($collection));
     }
     
 
