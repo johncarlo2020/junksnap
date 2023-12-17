@@ -39,7 +39,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('get', [CollectionController::class, 'get']);
         Route::post('add', [CollectionController::class, 'add']);
         Route::post('enRoute', [CollectionController::class, 'enRoute']);
-
+        Route::get('collectorSuccess', [CollectionController::class, 'collectorSuccess']);
+        Route::get('collectorCancel', [CollectionController::class, 'collectorCancel']);
+        Route::get('sellerSuccess', [CollectionController::class, 'sellerSuccess']);
+        Route::get('sellerCancel', [CollectionController::class, 'sellerCancel']);
     });
 });
 

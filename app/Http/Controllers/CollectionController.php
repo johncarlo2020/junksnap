@@ -93,6 +93,46 @@ class CollectionController extends Controller
 
         event(new InRouteEvent($collection));
     }
+
+    public function collectorSuccess(Request $request)
+    {
+        $client = auth()->user();
+
+        $collection = Collection::where('collector_id', $client->id)->where('status_id', 5)->get();
+
+        return response()->json(['collection'=>$collection], 200);
+
+    }
+
+    public function collectorCancel(Request $request)
+    {
+        $client = auth()->user();
+
+        $collection = Collection::where('collector_id', $client->id)->where('status_id', 6)->get();
+
+        return response()->json(['collection'=>$collection], 200);
+
+    }
+
+    public function sellerSuccess(Request $request)
+    {
+        $client = auth()->user();
+
+        $collection = Collection::where('seller_id', $client->id)->where('status_id', 5)->get();
+
+        return response()->json(['collection'=>$collection], 200);
+
+    }
+
+    public function sellerCancel(Request $request)
+    {
+        $client = auth()->user();
+
+        $collection = Collection::where('seller_id', $client->id)->where('status_id', 6)->get();
+
+        return response()->json(['collection'=>$collection], 200);
+
+    }
     
 
 }
