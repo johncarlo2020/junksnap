@@ -8,6 +8,8 @@ use App\Models\User;
 use DB;
 use App\Events\AddCollectionEvent;
 use App\Events\InRouteEvent;
+use App\Events\GrabEvent;
+use App\Events\CancelEvent;
 
 
 class CollectionController extends Controller
@@ -92,6 +94,49 @@ class CollectionController extends Controller
         $collection->save();
 
         event(new InRouteEvent($collection));
+    }
+
+    public function grab(Request $request)
+    {
+        $this->validate($request, [
+            'id'             => 'required',
+        ]);
+
+        $client = auth()->user();
+
+        $collection = Collection::find($request->id);
+        $collection->status_id =  5;
+        $collection->save();
+
+        event(new GrabEvent($collection));
+    }
+
+    public function cancel(Request $request)
+    {
+        $this->validate($request, [
+            'id'             => 'required',
+        ]);
+
+        $client = auth()->user();
+
+        $collection = Collection::find($request->id);
+        $collection->status_id =  6;
+        $collection->save();
+
+        $collectionNew =  new Collection;
+        $collectionNew->title = $collection->title;
+        $collectionNew->description = $collection->description;
+        $collectionNew->weight = $collection->weight;
+        $collectionNew->seller_id = $collection->seller_id;
+        $collectionNew->seller_lat = $collection->seller_lat;
+        $collectionNew->seller_lng = $collection->seller_lng;
+        $collectionNew->images = $collection->images;
+        $collectionNew->save();
+
+        event(new CancelEvent($collection));
+
+        event(new AddCollectionEvent($collectionNew));
+
     }
 
     public function collectorSuccess(Request $request)
