@@ -35,6 +35,6 @@ class InRouteEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('add-collection');
+        return new Channel('en_route');
     }
 }
