@@ -122,7 +122,7 @@ class CollectionController extends Controller
         $collectionNew->seller_id = $collection->seller_id;
         $collectionNew->seller_lat = $collection->seller_lat;
         $collectionNew->seller_lng = $collection->seller_lng;
-        $collectionNew->images = $collection->images;
+        $collectionNew->images = $collection->imageName;
         $collectionNew->save();
 
         event(new CancelEvent($collection));
