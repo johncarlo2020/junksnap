@@ -17,7 +17,7 @@ class CollectionController extends Controller
     public function get(Request $request)
     {
         // Get collections for a specific user as a collector
-        $result = Collection::where('status_id',1)->get();
+        $result = Collection::where('status_id',1)->where('status_id',2)->get();
 
         return response()->json($result, 200);
     }
@@ -48,14 +48,6 @@ class CollectionController extends Controller
             $collection->seller_lng = $request->seller_lng;
 
             $date = now()->format('Ymd_His');
-
-            // $path = 'app/public/collections/'; 
-            
-            // $file = $request->file('image');
-            // $filename = $file->getClientOriginalName(); 
-            // $file->storeAs($path, $filename); 
-            // $collection->images = $filename;
-            // $collection->save();
 
             $imagePath = $request->image->storeAs(
                 'collections', $date . '_'.'collection.png', 'public'
