@@ -17,7 +17,7 @@ class CollectionController extends Controller
     public function get(Request $request)
     {
         // Get collections for a specific user as a collector
-        $result = Collection::where('status_id',1)->where('status_id',2)->get();
+        $result = Collection::where('status_id',1)->orWhere('status_id',2)->get();
 
         return response()->json($result, 200);
     }
