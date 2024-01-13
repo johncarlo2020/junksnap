@@ -12,6 +12,7 @@ use App\Events\GrabEvent;
 use App\Events\CancelEvent;
 
 
+
 class CollectionController extends Controller
 {
     public function get(Request $request)
@@ -56,7 +57,20 @@ class CollectionController extends Controller
             $collection->images = $imagePath;
             $collection->save();
 
+            $tokens = User::role('Collector')->pluck('fcm_token');
+
             event(new AddCollectionEvent($collection));
+
+            $data = [
+                "title" => 'A new collection has been added.',
+                "body"  => "New Collection",
+                "data"  => [
+                    "type"                  => 'alarm',
+                    "priority"              => 'high',
+                ]
+            ];
+
+            $firebase  = sendToTokenArray($tokens, $data);
           
             DB::commit();
             return response()->json(['id'=>$collection->id], 201);
