@@ -73,7 +73,7 @@ class CollectionController extends Controller
             $firebase  = sendToTokenArray($tokens, $data);
           
             DB::commit();
-            return response()->json(['id'=>$firebase], 201);
+            return response()->json(['id'=>$collection->id], 201);
 
         } catch (ValidationException $e) {
             // Handle validation errors
