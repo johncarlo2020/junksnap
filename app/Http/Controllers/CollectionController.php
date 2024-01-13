@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Collection;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\CollectionCategory;
+
 use DB;
 use App\Events\AddCollectionEvent;
 use App\Events\InRouteEvent;
@@ -23,6 +26,14 @@ class CollectionController extends Controller
         return response()->json($result, 200);
     }
 
+    public function getCategory(Request $request)
+    {
+        // Get collections for a specific user as a collector
+        $result = Category::get();
+
+        return response()->json($result, 200);
+    }
+
     public function add(Request $request)
     {
         $this->validate($request, [
@@ -32,6 +43,8 @@ class CollectionController extends Controller
             'weight'          => 'required',
             'seller_lat'        => 'required',
             'seller_lng'        => 'required',
+            'categories'        => 'required|array',
+
         ]);
 
         DB::beginTransaction();
@@ -57,7 +70,17 @@ class CollectionController extends Controller
             $collection->images = $imagePath;
             $collection->save();
 
+            foreach($request->categories as $category)
+            {
+                $collectionCategory = new CollectionCategory;
+                $collectionCategory->collection_id = $collection->id;
+                $collectionCategory->category_id = $category;
+                $collectionCategory->save();
+            }
+
             $tokens = User::role('Collector')->pluck('fcm_token');
+
+
 
             event(new AddCollectionEvent($collection));
 

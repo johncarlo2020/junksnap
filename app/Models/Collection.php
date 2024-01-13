@@ -13,7 +13,9 @@ class Collection extends Model
     
     protected $table = "collections";
 
-    protected $appends = ['seller', 'collector','status','images','imageName'];
+    protected $appends = ['seller', 'collector','status','images','imageName','category'];
+
+    protected $hidden = ['categories'];
 
     // Accessor method to retrieve seller data
     public function getSellerAttribute()
@@ -30,6 +32,11 @@ class Collection extends Model
     public function getStatusAttribute()
     {
         return $this->status()->first();
+    }
+
+    public function getCategoryAttribute()
+    {
+        return $this->categories;
     }
 
     public function getImageNameAttribute()
@@ -59,6 +66,11 @@ class Collection extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_collections');
     }
 
     public function images()

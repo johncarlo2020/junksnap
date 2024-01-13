@@ -38,6 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'collection'], function () {
         Route::get('get', [CollectionController::class, 'get']);
+        Route::get('getCategory', [CollectionController::class, 'getCategory']);
+
         Route::post('add', [CollectionController::class, 'add']);
         Route::post('enRoute', [CollectionController::class, 'enRoute']);
         Route::post('grab', [CollectionController::class, 'grab']);
