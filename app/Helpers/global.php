@@ -127,6 +127,7 @@ function sendToTokenArray($tokens , $data) {
             {
                 
             }
+            return $result;
 
             curl_close($ch);
 
