@@ -49,7 +49,7 @@ function sendToToken($token , $data) {
         );
 
         $header = array(
-            "Authorization:key=AAAApmfO__Y:APA91bECdaGX-K8bkktZR8hPZ7qscOZHQnWz5nZE0v67iP80e9A3exywAASJW9Ep_qCAsBa1vQ8iDsFVwcQBmp1PFO58vGiep_xTX3eTeWB8B2H5ZZBNID6FZj2AbrL5jVH9VxQSaAT-",
+            "Authorization:key=AAAAK5U0bs8:APA91bEJm48QElfBkPU8zaize6dLmo9shD_8kynlXtRUVWvxya3LS3hVmxp61T75sqWiskdOZjIxVgoNuOfTI_DFnbFPBYhXGBTT2e-nvxSHo4XkWcZBLT50seabL9I79EnXBkz9f05o",
             'Content-Type:application/json'
         );
 
@@ -106,7 +106,7 @@ function sendToTokenArray($tokens , $data) {
             );
 
             $header = array(
-                "Authorization:key=AAAApmfO__Y:APA91bECdaGX-K8bkktZR8hPZ7qscOZHQnWz5nZE0v67iP80e9A3exywAASJW9Ep_qCAsBa1vQ8iDsFVwcQBmp1PFO58vGiep_xTX3eTeWB8B2H5ZZBNID6FZj2AbrL5jVH9VxQSaAT-",
+                "Authorization:key=AAAAK5U0bs8:APA91bEJm48QElfBkPU8zaize6dLmo9shD_8kynlXtRUVWvxya3LS3hVmxp61T75sqWiskdOZjIxVgoNuOfTI_DFnbFPBYhXGBTT2e-nvxSHo4XkWcZBLT50seabL9I79EnXBkz9f05o",
                 'Content-Type:application/json'
             );
 
