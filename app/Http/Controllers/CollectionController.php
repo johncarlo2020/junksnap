@@ -44,7 +44,7 @@ class CollectionController extends Controller
             'seller_lat'        => 'required',
             'seller_lng'        => 'required',
             'categories'        => 'required|array',
-
+            'address'           =>'required'
         ]);
 
         DB::beginTransaction();
@@ -54,11 +54,11 @@ class CollectionController extends Controller
 
             $collection =  new Collection;
             $collection->title = $request->title;
+            $collection->address = $request->address;
             $collection->description = $request->description;
             $collection->weight = $request->weight;
             $collection->seller_id = $client->id;
             $collection->seller_lat = $request->seller_lat;
-
             $collection->seller_lng = $request->seller_lng;
 
             $date = now()->format('Ymd_His');
@@ -79,8 +79,6 @@ class CollectionController extends Controller
             }
 
             $tokens = User::role('Collector')->pluck('fcm_token');
-
-
 
             event(new AddCollectionEvent($collection));
 

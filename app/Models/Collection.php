@@ -17,16 +17,14 @@ class Collection extends Model
 
     protected $hidden = ['categories'];
 
-    // Accessor method to retrieve seller data
     public function getSellerAttribute()
     {
-        return $this->seller()->first(); // assuming you have a 'seller' relationship
+        return $this->seller()->first(); 
     }
 
-    // Accessor method to retrieve collector data
     public function getCollectorAttribute()
     {
-        return $this->collector()->first(); // assuming you have a 'collector' relationship
+        return $this->collector()->first(); 
     }
 
     public function getStatusAttribute()
@@ -51,13 +49,11 @@ class Collection extends Model
         return  asset('storage/' . $file);
     }
 
-
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
     }
 
-    // Relationship: Collection belongs to a collector (belongsTo)
     public function collector()
     {
         return $this->belongsTo(User::class, 'collector_id');
