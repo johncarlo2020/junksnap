@@ -78,9 +78,9 @@ class CollectionController extends Controller
                 $collectionCategory->save();
             }
 
-            $tokens = User::role('Collector')->pluck('fcm_token');
-
             event(new AddCollectionEvent($collection));
+
+            $tokens = User::role('Collector')->pluck('fcm_token');
 
             $data = [
                 "title" => 'A new collection has been added.',
@@ -120,6 +120,19 @@ class CollectionController extends Controller
         $collection->status_id =  2;
         $collection->save();
 
+        $tokens = User::where('id', $collection->seller_id)->pluck('fcm_token');
+
+        $data = [
+            "title" => 'Collector is on the way.',
+            "body"  => "Collection Accepted",
+            "data"  => [
+                "type"                  => 'alarm',
+                "priority"              => 'high',
+            ]
+        ];
+
+        $firebase  = sendToTokenArray($tokens, $data);
+
         event(new InRouteEvent($collection));
     }
 
@@ -134,6 +147,19 @@ class CollectionController extends Controller
         $collection = Collection::find($request->id);
         $collection->status_id =  5;
         $collection->save();
+
+        $tokens = User::where('id', $collection->seller_id)->pluck('fcm_token');
+
+        $data = [
+            "title" => 'Collector already picked up your Collections.',
+            "body"  => "Collection Grab",
+            "data"  => [
+                "type"                  => 'alarm',
+                "priority"              => 'high',
+            ]
+        ];
+
+        $firebase  = sendToTokenArray($tokens, $data);
 
         event(new GrabEvent($collection));
     }
@@ -163,6 +189,19 @@ class CollectionController extends Controller
         event(new CancelEvent($collection));
 
         event(new AddCollectionEvent($collectionNew));
+
+        $tokens = User::where('id', $collection->seller_id)->pluck('fcm_token');
+
+        $data = [
+            "title" => 'Collector Cancelled your Colelction.',
+            "body"  => "Collection Rejected",
+            "data"  => [
+                "type"                  => 'alarm',
+                "priority"              => 'high',
+            ]
+        ];
+
+        $firebase  = sendToTokenArray($tokens, $data);
 
     }
 
